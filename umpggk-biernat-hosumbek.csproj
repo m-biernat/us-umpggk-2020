@@ -64,8 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chessboard.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="Field.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="Pawn.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
