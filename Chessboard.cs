@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace umpggk_biernat_hosumbek
 {
@@ -68,18 +67,29 @@ namespace umpggk_biernat_hosumbek
                 if (col == 5)
                 {
                     row = row == 0 ? row = 4 : row = 0;
-                    
+
                     Fields[row, 2].Pawn = pawn;
-                    
+                    pawn.position = new int[] { row, 2 };
+
                     col = 0;
                     row = 4;
                 }
                 else
                 {
                     Fields[row, col].Pawn = pawn;
+                    pawn.position = new int[] { row, col };
                     col++;
                 }
             }
+        }
+
+        public void Move(int[] from, int[] to)
+        {
+            Pawn pawn = Fields[from[0], from[1]].Pawn;
+            Fields[from[0], from[1]].Pawn = null;
+
+            Fields[to[0], to[1]].Pawn = pawn;
+            pawn.position = to;
         }
     }
 }

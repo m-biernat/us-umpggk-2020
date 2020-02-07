@@ -20,13 +20,13 @@ namespace umpggk_biernat_hosumbek
             switch (msg[0])
             {
                 case "200":
-                    //OnStart(msg[1]);
                     Console.WriteLine("\n[MATCH STARTED] as " + msg[1]);
+                    OnStart(msg[1]);
                     break;
 
                 case "220":
-                    //OnMove(msg[1], msg[2]);
                     Console.WriteLine("[RECIEVED MOVE] " + msg[1] + " -> " + msg[2]);
+                    OnMove(msg[1], msg[2]);
                     break;
 
                 case "230":
@@ -54,8 +54,8 @@ namespace umpggk_biernat_hosumbek
                     break;
 
                 case "299":
-                    OnFinish();
                     Console.WriteLine("\n[TOURNAMENT] The tournament has ended - rank: " + msg[1]);
+                    OnFinish();
                     break;
 
                 case "500":
@@ -70,9 +70,9 @@ namespace umpggk_biernat_hosumbek
                     Console.WriteLine("\n[SERVER] Connected as " + data.Remove(0, 4));
                     break;
 
-                case "700":
-                    OnFinish();
+                case "700":     
                     Console.WriteLine("\n[SYSTEM ERROR] " + data.Remove(0, 4));
+                    OnFinish();
                     break;
 
                 case "999":
@@ -83,6 +83,18 @@ namespace umpggk_biernat_hosumbek
                     Console.WriteLine("[RECIEVED DATA] " + data);
                     break;
             }
+        }
+
+        public static int[] ParseIn(string data)
+        {
+            int[] arr = { data[2] - 48, data[0] - 48 };
+
+            return arr;
+        }
+
+        public static string ParseOut(int[] position)
+        {
+            return position[1] + "," + position[0];
         }
     }
 }

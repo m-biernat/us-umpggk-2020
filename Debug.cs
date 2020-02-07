@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace umpggk_biernat_hosumbek
 {
     class Debug
     {
-        public static void Draw(Chessboard cb)
+        public static void Draw(Chessboard chessboard)
         {
             Console.WriteLine("     0  1  2  3  4");
             Console.WriteLine("   +---------------+");
@@ -19,9 +15,9 @@ namespace umpggk_biernat_hosumbek
 
                 for (int j = 0; j < 5; j++)
                 {
-                    if (!cb.Fields[i, j].IsEmpty())
+                    if (!chessboard.Fields[i, j].isEmpty())
                     {
-                        Pawn pawn = cb.Fields[i, j].Pawn;
+                        Pawn pawn = chessboard.Fields[i, j].Pawn;
 
                         if (pawn.Color == "white")
                         {
@@ -40,7 +36,7 @@ namespace umpggk_biernat_hosumbek
                     }
                     else
                     {
-                        if (cb.Fields[i, j].Type == FieldType.neutral)
+                        if (chessboard.Fields[i, j].Type == FieldType.neutral)
                             Console.Write(" . ");
                         else
                             Console.Write(" # ");

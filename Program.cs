@@ -15,6 +15,8 @@ namespace umpggk_biernat_hosumbek
             else
                 con = new Connection();
 
+            Game game = new Game(con);
+
             do
             {
                 Console.Clear();

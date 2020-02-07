@@ -68,6 +68,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Pawn.cs" />
     <Compile Include="Program.cs" />

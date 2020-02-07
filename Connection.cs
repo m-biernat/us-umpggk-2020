@@ -47,6 +47,13 @@ namespace umpggk_biernat_hosumbek
             }
         }
 
+        public void Send(string from, string to)
+        {
+            string str = "210 " + from + " " + to;
+            Console.WriteLine(str);
+            socket.Send(str);
+        }
+
         private void OnFinish()
         {
             finished = true;

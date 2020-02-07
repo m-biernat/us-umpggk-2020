@@ -11,7 +11,7 @@
             Pawn = pawn;
         }
 
-        public bool IsEmpty()
+        public bool isEmpty()
         {
             if (Pawn == null)
                 return true;
