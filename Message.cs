@@ -24,6 +24,10 @@ namespace umpggk_biernat_hosumbek
                     OnStart(msg[1]);
                     break;
 
+                case "210":
+                    Console.WriteLine("[SENT MOVE] " + msg[1] + " -> " + msg[2]);
+                    break;
+
                 case "220":
                     Console.WriteLine("[RECIEVED MOVE] " + msg[1] + " -> " + msg[2]);
                     OnMove(msg[1], msg[2]);

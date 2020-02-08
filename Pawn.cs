@@ -1,4 +1,6 @@
-﻿namespace umpggk_biernat_hosumbek
+﻿using System.Collections.Generic;
+
+namespace umpggk_biernat_hosumbek
 {
     class Pawn
     {
@@ -7,12 +9,15 @@
 
         public int[] position;
 
+        public List<int[]> possibleMoves;
+
         public Pawn(PawnType type, string color)
         {
             Type = type;
             Color = color;
 
             position = new int[2];
+            possibleMoves = new List<int[]>();
         }
     }
 

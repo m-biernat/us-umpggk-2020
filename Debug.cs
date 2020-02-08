@@ -48,5 +48,13 @@ namespace umpggk_biernat_hosumbek
             Console.WriteLine("   +---------------+");
         }
 
+        public static void PrintMoves(Pawn pawn)
+        {
+            foreach (var move in pawn.possibleMoves)
+            {
+                Console.Write(pawn.position[0] + "" + pawn.position[1] + " -> " + move[0] + move[1] + ", ");
+            }
+            Console.WriteLine();
+        }
     }
 }

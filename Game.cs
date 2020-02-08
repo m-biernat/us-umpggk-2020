@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace umpggk_biernat_hosumbek
 {
@@ -13,34 +10,100 @@ namespace umpggk_biernat_hosumbek
 
         private string color;
 
+        private List<Pawn> pawns;
+
+        private Pawn king;
+        private bool check;
+
+        private Random rnd;
+
         public Game(Connection connection)
         {
             this.connection = connection;
             chessboard = new Chessboard();
 
+            Move.chessboard = chessboard;
+            Move.OnCheck += OnCheck;
+
             Message.OnStart += OnStart;
             Message.OnMove += OnMove;
+
+            rnd = new Random();
+        }
+
+        private void OnCheck(string color)
+        {
+            if (this.color == color)
+                check = true;
         }
 
         private void OnStart(string color)
         {
             this.color = color;
             chessboard.Reset();
+
+            if (color == "white")
+                pawns = chessboard.Whites;
+            else
+                pawns = chessboard.Blacks;
+            
+            king = pawns[4];
+            check = false;
         }
 
         private void OnMove(string from, string to)
         {
             chessboard.Move(Message.ParseIn(from), Message.ParseIn(to));
 
-
-            int[] arrF = { 4, 4 };
-            int[] arrT = { 1, 4 };
-
-            connection.Send(Message.ParseOut(arrF), Message.ParseOut(arrT));
-            //chessboard.Move(arrF, arrT);
-
+            GetAllAvailableMoves(pawns);
+            SendNextMove();
 
             Debug.Draw(chessboard);
+        }
+
+        private void SendNextMove()
+        {
+            List<Pawn> pawnsWithMoves = new List<Pawn>();
+
+            foreach(var pawn in pawns)
+            {
+                if (pawn.possibleMoves.Count > 0)
+                    pawnsWithMoves.Add(pawn);
+            }
+
+            Pawn selected;
+            int[] move;
+
+            if (!check)
+            {
+                selected = pawnsWithMoves[rnd.Next(0, pawnsWithMoves.Count)];
+                move = selected.possibleMoves[rnd.Next(0, selected.possibleMoves.Count)];
+            }
+            else
+            {
+                selected = king;
+                move = new int[] { 2, 2 };
+            }
+
+            connection.Send(Message.ParseOut(selected.position), Message.ParseOut(move));
+            chessboard.Move(selected.position, move);
+        }
+
+        private void GetAllAvailableMoves(List<Pawn> pawns)
+        {
+            foreach (var pawn in pawns)
+            {
+                Move.CheckDirection(pawn, 0, 1);
+                Move.CheckDirection(pawn, 0, -1);
+                Move.CheckDirection(pawn, 1, 0);
+                Move.CheckDirection(pawn, -1, 0);
+                Move.CheckDirection(pawn, 1, 1);
+                Move.CheckDirection(pawn, 1, -1);
+                Move.CheckDirection(pawn, -1, 1);
+                Move.CheckDirection(pawn, -1, -1);
+                
+                //Debug.PrintMoves(pawn);
+            }
         }
     }
 }

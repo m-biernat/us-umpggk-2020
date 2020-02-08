@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace umpggk_biernat_hosumbek
 {
@@ -16,8 +17,8 @@ namespace umpggk_biernat_hosumbek
             CreateFields();
 
             Pawns = new List<Pawn>();
-            CreatePawns("white", Whites);
-            CreatePawns("black", Blacks);
+            Whites = CreatePawns("white");
+            Blacks = CreatePawns("black");
         }
 
         private void CreateFields()
@@ -34,9 +35,9 @@ namespace umpggk_biernat_hosumbek
             }
         }
 
-        private void CreatePawns(string color, List<Pawn> pawnsOfColor)
+        private List<Pawn> CreatePawns(string color)
         {
-            pawnsOfColor = new List<Pawn>();
+            List<Pawn> pawnsOfColor = new List<Pawn>();
 
             for (int i = 0; i < 5; i++)
             {
@@ -50,13 +51,15 @@ namespace umpggk_biernat_hosumbek
                 Pawns.Add(pawn);
                 pawnsOfColor.Add(pawn);
             }
+
+            return pawnsOfColor;
         }
 
         public void Reset()
         {
             foreach (var field in Fields)
                 field.Pawn = null;
-            
+
             int col = 0, row = 0;
 
             foreach (var pawn in Pawns)
@@ -80,6 +83,8 @@ namespace umpggk_biernat_hosumbek
                     pawn.position = new int[] { row, col };
                     col++;
                 }
+
+                pawn.possibleMoves.Clear();
             }
         }
 

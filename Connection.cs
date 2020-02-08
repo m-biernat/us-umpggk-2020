@@ -29,7 +29,7 @@ namespace umpggk_biernat_hosumbek
                 socket = new ConnectedSocket(ipAddress, port);
                 Message.Process("550");
 
-                socket.Send("100 " + Program.playerName);
+                socket.Send("100 " + Program.playerName + "\n");
                 Message.Process("555 " + Program.playerName);
 
                 while (!finished)
@@ -49,9 +49,9 @@ namespace umpggk_biernat_hosumbek
 
         public void Send(string from, string to)
         {
-            string str = "210 " + from + " " + to;
-            Console.WriteLine(str);
-            socket.Send(str);
+            string data = "210 " + from + " " + to + "\n";
+            socket.Send(data);
+            Message.Process(data);
         }
 
         private void OnFinish()
