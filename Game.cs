@@ -49,6 +49,21 @@ namespace umpggk_biernat_hosumbek
             
             king = pawns[4];
             check = false;
+
+            if (color == "white")
+            {
+                List<Pawn> startingPawns = new List<Pawn>();
+
+                for (int i = 0; i < 4; i++)
+                { 
+                    startingPawns.Add(pawns[i]); 
+                }
+                
+                GetAllAvailableMoves(startingPawns);
+                SendNextMove(startingPawns);
+
+                Debug.Draw(chessboard);
+            }
         }
 
         private void OnMove(string from, string to)
@@ -56,12 +71,12 @@ namespace umpggk_biernat_hosumbek
             chessboard.Move(Message.ParseIn(from), Message.ParseIn(to));
 
             GetAllAvailableMoves(pawns);
-            SendNextMove();
+            SendNextMove(pawns);
 
             Debug.Draw(chessboard);
         }
 
-        private void SendNextMove()
+        private void SendNextMove(List<Pawn> pawns)
         {
             List<Pawn> pawnsWithMoves = new List<Pawn>();
 
@@ -93,6 +108,7 @@ namespace umpggk_biernat_hosumbek
         {
             foreach (var pawn in pawns)
             {
+                pawn.possibleMoves.Clear();
                 Move.CheckDirection(pawn, 0, 1);
                 Move.CheckDirection(pawn, 0, -1);
                 Move.CheckDirection(pawn, 1, 0);

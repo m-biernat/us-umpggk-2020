@@ -83,8 +83,6 @@ namespace umpggk_biernat_hosumbek
                     pawn.position = new int[] { row, col };
                     col++;
                 }
-
-                pawn.possibleMoves.Clear();
             }
         }
 
