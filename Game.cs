@@ -70,7 +70,7 @@ namespace umpggk_biernat_hosumbek
                 GetAllAvailableMoves(startingPawns);
                 SendNextMove(startingPawns);
 
-                Debug.Draw(chessboard);
+                //Debug.Draw(chessboard);
             }
         }
 
@@ -81,7 +81,7 @@ namespace umpggk_biernat_hosumbek
             GetAllAvailableMoves(pawns);
             SendNextMove(pawns);
 
-            Debug.Draw(chessboard);
+            //Debug.Draw(chessboard);
         }
 
         private void SendNextMove(List<Pawn> pawns)
