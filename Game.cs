@@ -6,9 +6,9 @@ namespace umpggk_biernat_hosumbek
     class Game
     {
         private Connection connection;
-        private Chessboard chessboard;
+        public Chessboard chessboard;
 
-        private string color;
+        public string color;
 
         private List<Pawn> pawns;
 
@@ -16,6 +16,8 @@ namespace umpggk_biernat_hosumbek
         private bool check;
 
         private Random rnd;
+
+        private Strategy strategy;
 
         public Game(Connection connection)
         {
@@ -43,10 +45,16 @@ namespace umpggk_biernat_hosumbek
             chessboard.Reset();
 
             if (color == "white")
+            {
                 pawns = chessboard.Whites;
+                strategy = new WhiteStrategy(this);
+            }
             else
+            {
                 pawns = chessboard.Blacks;
-            
+                strategy = new BlackStrategy(this);
+            }
+
             king = pawns[4];
             check = false;
 
@@ -58,7 +66,7 @@ namespace umpggk_biernat_hosumbek
                 { 
                     startingPawns.Add(pawns[i]); 
                 }
-                
+
                 GetAllAvailableMoves(startingPawns);
                 SendNextMove(startingPawns);
 
@@ -89,15 +97,25 @@ namespace umpggk_biernat_hosumbek
             Pawn selected;
             int[] move;
 
-            if (!check)
+            Move nextMove = strategy.NextMove(pawnsWithMoves);
+
+            if (nextMove != null)
             {
-                selected = pawnsWithMoves[rnd.Next(0, pawnsWithMoves.Count)];
-                move = selected.possibleMoves[rnd.Next(0, selected.possibleMoves.Count)];
+                selected = nextMove.pawn;
+                move = nextMove.position;
             }
             else
             {
-                selected = king;
-                move = new int[] { 2, 2 };
+                if (!check)
+                {
+                    selected = pawnsWithMoves[rnd.Next(0, pawnsWithMoves.Count)];
+                    move = selected.possibleMoves[rnd.Next(0, selected.possibleMoves.Count)];
+                }
+                else
+                {
+                    selected = king;
+                    move = new int[] { 2, 2 };
+                }
             }
 
             connection.Send(Message.ParseOut(selected.position), Message.ParseOut(move));

@@ -7,6 +7,15 @@
         public delegate void OnCheckDelegate(string color);
         public static OnCheckDelegate OnCheck;
 
+        public Pawn pawn;
+        public int[] position;
+
+        public Move(Pawn pawn, int[] move)
+        {
+            this.pawn = pawn;
+            this.position = move;
+        }
+
         public static void CheckDirection(Pawn pawn, int rowDir, int colDir)
         {
             int[] pos = { pawn.position[0], pawn.position[1] };
